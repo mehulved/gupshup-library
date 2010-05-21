@@ -19,3 +19,5 @@ token = connect.tryLogin(salt, challenge, password, phoneno, apiVersion, country
 msg = message.getMsg()
 
 message.postMsg(msg, groupname, token, apiVersion)
+
+connect.tryLogout(token)
