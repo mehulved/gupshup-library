@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+"""
+Library for connecting and disconnecting from SMS Gupshup.
+"""
 import iniparse
 import simplejson as sj
 import urllib
@@ -7,20 +10,16 @@ import hashlib
 import base64
 import sys
 
+global token
+
 class gsconnect:
 
 	def __init__(self):
-		global countryCode 
-		global apiVersion
-
-		countryCode = "91"
-		apiVersion = "1.0"
-
 		salt, challenge = self.getChallenge()
 		cfg = iniparse.INIConfig(open('settings.ini'))
 		password = cfg['sms']['password']
 		phoneno = cfg['sms']['phoneno']
-		self.tryLogin(salt, challenge, password, phoneno)
+		token = self.tryLogin(salt, challenge, password, phoneno)
 		
 	def getChallenge(self):
 		"""
@@ -58,4 +57,19 @@ class gsconnect:
 			return token
 		else:
 			print loginResult['response']['error']['msg']
+			sys.exit()
+
+class gsdisconnect:
+
+	def __init__(self):
+		self.tryLogout(token)
+
+	def tryLogout(self,token):
+		logoutUrl = "http://api.smsgupshup.com/GupshupAPI/rest?token=%s&method=users.logout&v=%s" % (token,apiVersion)
+		logoutResponse = js.load(urllib.urlopen(logoutUrl))
+
+		if "status" in lougoutRequest['response']:
+			print "Logout Successful"
+		else:
+			print logoutRequest['response']['error']['msg']
 			sys.exit()
