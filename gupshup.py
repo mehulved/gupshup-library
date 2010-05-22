@@ -1,16 +1,22 @@
 #!/usr/bin/env python
 
 from iniparse import INIConfig
+import feed_handler
 import connect
 import message
 
 
 cfg = INIConfig(open('settings.ini'))
+rsslink = cfg['feeds']['rsslink']
 phoneno = cfg['sms']['phoneno']
 password = cfg['sms']['password']
+groupname = cfg['sms']['groupname']
 apiVersion = cfg['api']['version']
 countryCode = cfg['api']['countrycode']
-groupname = cfg['sms']['groupname']
+
+feed_item = getRss(rsslink)
+
+storeMsg(feed_item)
 
 salt, challenge = connect.getChallenge(phoneno, password, apiVersion, countryCode)
 

@@ -13,17 +13,16 @@ def getMsg():
 	msgOpen = open('msgFile.txt', 'r')
 	msg = msgOpen.read()
 	msg = msg.replace(" ", "+")
-	msg = msg.split('---')
+	msg = msg.split("\n")
 	return msg
 
 def postMsg(msg, groupname, token, apiVersion):
 	"""
 	Post the retrived message to SMS Gupshup
 	"""
-	msglen = len(msg)
 
-	for i in range(msglen-1):
-		postMsgUrl = "http://api.smsgupshup.com/GupshupAPI/rest?text=%s&token=%s&groupName=%s&method=groups.postMessage&v=%s" % (msg[i], token, groupname, apiVersion)
+	for post in msg:
+		postMsgUrl = "http://api.smsgupshup.com/GupshupAPI/rest?text=%s&token=%s&groupName=%s&method=groups.postMessage&v=%s" % (post, token, groupname, apiVersion)
 		postMsgResult = sj.load(urllib.urlopen(postMsgUrl))
 
 		if "status" in postMsgResult['response']:
