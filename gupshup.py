@@ -20,4 +20,4 @@ msg = message.getMsg()
 
 message.postMsg(msg, groupname, token, apiVersion)
 
-connect.tryLogout(token)
+connect.tryLogout(token, apiVersion)

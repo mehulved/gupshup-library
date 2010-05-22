@@ -22,6 +22,7 @@ def getChallenge(phoneno, password, apiVersion, countryCode):
 	if "status" in challengeResult['response']:
 		salt = challengeResult['response']['salt']
 		challenge = challengeResult['response']['challenge']
+		print "Got challenge"
 		return salt, challenge
 	else:
 		print challengeResult['response']['error']['msg']
@@ -48,11 +49,11 @@ def tryLogin(salt, challenge, password, phoneno, apiVersion, countryCode):
 		print loginResult['response']['error']['msg']
 		sys.exit()
 
-def tryLogout(token):
+def tryLogout(token, apiVersion):
 	logoutUrl = "http://api.smsgupshup.com/GupshupAPI/rest?token=%s&method=users.logout&v=%s" % (token,apiVersion)
-	logoutResponse = js.load(urllib.urlopen(logoutUrl))
+	logoutRequest = sj.load(urllib.urlopen(logoutUrl))
 
-	if "status" in lougoutRequest['response']:
+	if "status" in logoutRequest['response']:
 		print "Logout Successful"
 	else:
 		print logoutRequest['response']['error']['msg']

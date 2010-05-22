@@ -13,7 +13,7 @@ def getMsg():
 	msgOpen = open('msgFile.txt', 'r')
 	msg = msgOpen.read()
 	msg = msg.replace(" ", "+")
-	msg = msg.replace("\n","+")
+#	msg = msg.replace("\n","+")
 	return msg
 
 def postMsg(msg, groupname, token, apiVersion):
