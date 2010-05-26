@@ -5,7 +5,6 @@ import feed_handler
 import connect
 import message
 
-
 cfg = INIConfig(open('settings.ini'))
 rsslink = cfg['feeds']['rsslink']
 phoneno = cfg['sms']['phoneno']
@@ -17,8 +16,6 @@ countryCode = cfg['api']['countrycode']
 feed_item = getRss(rsslink)
 
 storeMsg(feed_item)
-
-salt, challenge = connect.getChallenge(phoneno, password, apiVersion, countryCode)
 
 token = connect.tryLogin(salt, challenge, password, phoneno, apiVersion, countryCode)
 

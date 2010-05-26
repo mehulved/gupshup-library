@@ -9,24 +9,34 @@ http://www.feedparser.org/
 """
 
 # We will use the fantastic feedparser library to parse the feeds
-import feedparser
+from feedparser import parse
+import sys
 
 def getFeed(rsslink):
 	"""
 	We will fetch the feeds from the RSS given RSS link and return a list of all the events.
 	"""
-	cyc_feed = feedparser.parse(rsslink)
+	cyc_feed = parse(rsslink)
 
-	# This list will store the title from each entry in the feed
-	feed_item = []
+	if (cyc_feed['status'] == 200):
+		# This list will store the title from each entry in the feed
+		feed_item = []
 
-	for feed in cyc_feed['entries']
-		feed_item.append(feed['title'])
+		for feed in cyc_feed['entries']
+			feed_item.append(feed['title'])
+	else:
+		print "Please check if the Feed URL is correct else try again later."
+		sys.exit()
 	
 	return feed_item
 
 def storeMsg(feed_item):
-	f = open('msgFile.txt', 'w')
+	filename = msgFile.txt
+	try:
+		f = open(filename, 'w')
+	except (IOError), err:
+		print "Unable to open the file", filename, "for writing.\n" e
+		sys.exit()
 
 	for item in feed_item:
 		f.write(item+"\n")

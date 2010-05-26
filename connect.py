@@ -10,12 +10,11 @@ import base64
 import sys
 
 
-def getChallenge(phoneno, password, apiVersion, countryCode):
+def getChallenge(apiVersion):
 	"""
 	Get challenge and salt from Gupshup API.
 	Returns challenge and salt
 	"""
-	
 	challengeUrl = "http://api.smsgupshup.com/GupshupAPI/rest?method=users.getChallenge&v=%s" % apiVersion
 	challengeResult = sj.load(urllib.urlopen(challengeUrl))
 	
@@ -33,6 +32,9 @@ def tryLogin(salt, challenge, password, phoneno, apiVersion, countryCode):
 	Login to SMS Gupshup.
 	Returns the login token.
 	"""
+	status = validate(phoneno, countryCode)
+	salt, challenge = getChallenge(phoneno, password, apiVersion, countryCode)
+
 	rand = base64.b64encode(hashlib.md5(base64.b64encode(hashlib.md5(password+salt).digest())+challenge).digest())
 	# workaround way to deal with urlencode in python since it requires a tuple
 	tmp = urllib.urlencode({'x': rand})
@@ -58,3 +60,17 @@ def tryLogout(token, apiVersion):
 	else:
 		print logoutRequest['response']['error']['msg']
 		sys.exit()
+
+def validate(phoneno, countryCode):
+	"""
+	Validate the phone number and country code before proceeding with the login process
+	"""
+	status = False
+	if (countryCode == "91"):
+		status = True
+	
+	if (len(phoneno) == 10):
+		status = True
+
+	return status
+

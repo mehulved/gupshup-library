@@ -1,1 +1,8 @@
 This project is aimed to fetch RSS feeds from a website and post it as messages on SMS Gupshup.
+
+TODO:
+* Print all messages to log file
+* Handle errors using try except
+
+KNOWN BUGS
+* If the script fails at some point it will not be run again for that day with the current mechanism.
