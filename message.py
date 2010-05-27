@@ -1,6 +1,7 @@
+#!/usr/bin/env python
+
 import simplejson as sj
 import urllib
-import connect
 import sys
 
 """
